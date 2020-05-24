@@ -1,35 +1,32 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 buildscript {
-    var kotlin_version: String by extra
-    kotlin_version = "1.2.31"
 
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath(kotlinModule("gradle-plugin", kotlin_version))
     }
 }
 
 group = "com.fueled"
 version = "1.0-SNAPSHOT"
 
-apply {
-    plugin("kotlin")
+plugins {
+    kotlin("jvm") version "1.3.72"
 }
 
-val kotlin_version: String by extra
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
+
 
 dependencies {
-    compile(kotlinModule("stdlib-jdk8", kotlin_version))
-    compile("com.google.code.gson:gson:2.8.6")
+    kotlin("stdlib-jdk8", "1.3.72")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
+    implementation("com.google.code.gson:gson:2.8.6")
+
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+fun DependencyHandler.implementation(depName: String) {
+    add("implementation", depName)
 }
